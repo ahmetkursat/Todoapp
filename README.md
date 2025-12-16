@@ -113,4 +113,4 @@ MIT
 
 ## 👤 Geliştirici
 
-[Senin Adın](https://github.com/KULLANICI_ADIN)
+https://github.com/ahmetkursat
