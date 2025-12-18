@@ -7,12 +7,11 @@ namespace Core.Interfaces
 {
     public interface IRepository<T> where T :BaseEntity
     {
-        Task<T?> GetByIdAsync(int id);
-        Task<IEnumerable<T>> GetAllAsync();
-        Task<T> AddAsync(T entity);
-        Task UpdateAsync(T entity);
-
-        Task DeleteAsync(int id);
+        Task<TodoItem?> GetByIdAsync(int id);
+        Task<IEnumerable<TodoItem>> GetAllAsync();
+        Task<TodoItem> AddAsync(TodoItem item);
+        Task<TodoItem> UpdateAsync(int id ,TodoItem item);
+        Task<bool> DeleteAsync(int id);
 
     }
 }

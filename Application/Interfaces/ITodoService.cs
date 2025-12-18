@@ -13,7 +13,7 @@ namespace Application.Interfaces
         Task<IEnumerable<TodoItemDto>> GetCompletedAsync();
         Task<IEnumerable<TodoItemDto>> GetPendingAsync();
         Task<TodoItemDto> CreateAsync(CreateTodoItemDto dto);
-        Task<TodoItemDto> UpdateAsync(UpdateTodoItemDto dto);
+        Task<TodoItemDto> UpdateAsync(int id,UpdateTodoItemDto dto);
         Task<bool> DeleteAsync(int id);
       
     }
