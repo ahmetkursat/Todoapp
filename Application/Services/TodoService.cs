@@ -9,11 +9,11 @@ namespace TodoApi.Application.Services
 {
     public class TodoService : ITodoService
     {
-        private readonly ITodoRepository _repository;
+        private readonly ITodoRepository<TodoItem> _repository;
         private readonly IMapper _mapper;
         private readonly ILogger<TodoService> _logger;
 
-        public TodoService(ITodoRepository repository, IMapper mapper, ILogger<TodoService> logger)
+        public TodoService(ITodoRepository<TodoItem> repository, IMapper mapper, ILogger<TodoService> logger)
         {
             _repository = repository;
             _mapper = mapper;
@@ -27,6 +27,8 @@ namespace TodoApi.Application.Services
             var created = await _repository.AddAsync(entity);
 
             _logger.LogInformation("Todo item created with id: {Id}", created.Id);
+
+            await _repository.SaveChangesAsync();
 
             return _mapper.Map<TodoItemDto>(created);
         }
@@ -46,6 +48,8 @@ namespace TodoApi.Application.Services
                 _logger.LogWarning("Todo item with id {Id} not found for deletion", id);
             }
 
+            await _repository.SaveChangesAsync();
+
             return result;
         }
 
@@ -54,6 +58,7 @@ namespace TodoApi.Application.Services
             _logger.LogInformation("Getting all todo items");
             var entities = await _repository.GetAllAsync();
 
+            await _repository.SaveChangesAsync();
             return _mapper.Map<IEnumerable<TodoItemDto>>(entities);
         }
 
@@ -68,6 +73,7 @@ namespace TodoApi.Application.Services
                 _logger.LogInformation("Todo item with id {Id} not found", id);
                 return null;
             }
+            await _repository.SaveChangesAsync();
             return _mapper.Map<TodoItemDto>(entity);
         }
 
@@ -75,6 +81,7 @@ namespace TodoApi.Application.Services
         {
             _logger.LogInformation("Getting completed todo items");
             var entity = await _repository.GetCompletedAsync();
+            await _repository.SaveChangesAsync();
             return _mapper.Map<IEnumerable<TodoItemDto>>(entity);
         }
 
@@ -82,7 +89,13 @@ namespace TodoApi.Application.Services
         {
             _logger.LogInformation("Getting pending todo items");
             var entity = await _repository.GetPendingAsync();
+            await _repository.SaveChangesAsync();
             return _mapper.Map<IEnumerable<TodoItemDto>>(entity);
+        }
+
+        public async Task<int> SaveChangesAsync()
+        {
+            return await _repository.SaveChangesAsync();
         }
 
         public async Task<TodoItemDto> UpdateAsync(int id,UpdateTodoItemDto dto)
@@ -110,6 +123,7 @@ namespace TodoApi.Application.Services
             _logger.LogInformation("Todo item with id {Id} updated successfully", id);
 
             // Entity -> DTO (AutoMapper)
+            await _repository.SaveChangesAsync();
             return _mapper.Map<TodoItemDto>(updated);
         }
 
