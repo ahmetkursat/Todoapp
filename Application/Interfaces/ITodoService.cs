@@ -15,6 +15,6 @@ namespace Application.Interfaces
         Task<TodoItemDto> CreateAsync(CreateTodoItemDto dto);
         Task<TodoItemDto> UpdateAsync(int id,UpdateTodoItemDto dto);
         Task<bool> DeleteAsync(int id);
-      
+        Task<int> SaveChangesAsync();
     }
 }
