@@ -1,31 +1,27 @@
 ﻿using Core.Entities;
 using Core.Interfaces;
 using Infrastructure.Data;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Infrastructure.Repositories
 {
-    public class TodoRepository : Repository<TodoItem>, ITodoRepository
+    public class TodoRepository : Repository<TodoItem>, ITodoRepository<TodoItem>
     {
-        public TodoRepository(DbContext context, DbSet<TodoItem> dbset) : base(context, dbset)
+        private readonly ApplicationDbContext _applicationDbContext;
+
+        // DbContext yerine ApplicationDbContext kullanın
+        public TodoRepository(ApplicationDbContext context) : base(context)
         {
+            _applicationDbContext = context;
         }
 
-        public async Task <IEnumerable<TodoItem>> GetComletedAsync()
+        public Task<TodoItem> GetCompletedAsync()
         {
-            return await _context.Set<TodoItem>()
-                .AsNoTracking().Where(x => x.IsCompleted)
-             
+            throw new NotImplementedException();
         }
-        public async Task<IEnumerable<TodoItem>> GetPendingAsync()
+
+        public Task<TodoItem> GetPendingAsync()
         {
-            return await _context.Set<TodoItem>()
-                                 .AsNoTracking()
-                                 .Where(x => !x.IsCompleted) // Tamamlanmamışlar
-                                 .ToListAsync();
+            throw new NotImplementedException();
         }
     }
 }

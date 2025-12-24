@@ -5,13 +5,14 @@ using System.Text;
 
 namespace Core.Interfaces
 {
-    public interface IRepository<T> where T :BaseEntity
+    public interface IRepository<T> where T : class
     {
-        Task<TodoItem?> GetByIdAsync(int id);
-        Task<IEnumerable<TodoItem>> GetAllAsync();
-        Task<TodoItem> AddAsync(TodoItem item);
-        Task<TodoItem> UpdateAsync(int id ,TodoItem item);
+        Task<T?> GetByIdAsync(int id);
+        Task<IEnumerable<T>> GetAllAsync();
+        Task<T> AddAsync(T item);
+        Task<T> UpdateAsync(int id ,T item);
         Task<bool> DeleteAsync(int id);
+        Task<int> SaveChangesAsync();
 
     }
 }

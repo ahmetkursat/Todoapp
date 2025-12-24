@@ -1,5 +1,6 @@
 ﻿using Core.Entities;
 using Core.Interfaces;
+using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,15 +8,16 @@ using System.Text;
 
 namespace Infrastructure.Repositories
 {
-    public class Repository<T> : IRepository<T> where T : BaseEntity
+    public class Repository<T> : IRepository<T> where T : class
     {
 
-        protected readonly DbContext _context;
+        protected readonly ApplicationDbContext _context;
         private readonly DbSet<T> _dbset;
 
-        public Repository(DbContext context)
+        public Repository(ApplicationDbContext context)
         {
             _context = context;
+            _dbset = _context.Set<T>();
         }
 
         public async Task<T> AddAsync(T item)
@@ -27,7 +29,7 @@ namespace Infrastructure.Repositories
 
         public async Task<bool> DeleteAsync(int id)
         {
-            var entity = await _dbset.FindAsync();
+            var entity = await _dbset.FindAsync(id);
             if (entity == null)
             {
                 return false; // Silinecek kayıt bulunamadı
