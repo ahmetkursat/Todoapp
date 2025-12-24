@@ -5,11 +5,11 @@ using System.Text;
 
 namespace Core.Interfaces
 {
-    public interface ITodoRepository : IRepository<TodoItem>
+    public interface ITodoRepository<T> : IRepository<TodoItem>
     {
-        Task<IEnumerable<TodoItem>> GetCompletedAsync();
+        Task<T> GetCompletedAsync();
 
-        Task<IEnumerable<TodoItem>> GetPendingAsync();
+        Task<T> GetPendingAsync();
 
     }
 }

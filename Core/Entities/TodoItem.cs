@@ -14,6 +14,10 @@ namespace Core.Entities
             ValidateDescription(description);
         }
 
+        public TodoItem()
+        {
+        }
+
         public int Id { get; set; }
 
         public string Title { get; set; }
